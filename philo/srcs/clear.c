@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 10:55:30 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/12 21:02:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/14 13:56:11 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,16 @@ void	clear_mutexes(t_rules *r, int32_t max)
 
 void	clear_philo(t_rules *r)
 {
+	int32_t	i;
+
 	if (!r->philo)
 		return ;
+	i = 0;
+	while (i < r->nb_philo)
+	{
+		pthread_mutex_destroy(&r->philo[i].hunger);
+		pthread_mutex_destroy(&r->philo[i].is_done);
+		i++;
+	}
 	free(r->philo);
 }

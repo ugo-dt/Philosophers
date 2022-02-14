@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:39:53 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/12 21:08:49 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:52:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ static int	init_mutexes(t_rules *r)
 		return (0);
 	if (pthread_mutex_init(&r->logs, NULL) != EXIT_SUCCESS)
 		return (0);
+	if (pthread_mutex_init(&r->dead, NULL) != EXIT_SUCCESS)
+		return (0);
+	if (pthread_mutex_lock(&r->dead) != EXIT_SUCCESS)
+		return (0);
 	return (1);
 }
 
@@ -51,8 +55,6 @@ static int	init_philosophers(t_rules *r)
 	i = 0;
 	while (i < r->nb_philo)
 	{
-		r->philo[i].meals = 0;
-		r->philo[i].is_eating = 0;
 		r->philo[i].last_meal = 0;
 		r->philo[i].nb = i;
 		r->philo[i].left_fork = i;
@@ -62,6 +64,10 @@ static int	init_philosophers(t_rules *r)
 			r->philo[i].right_fork = r->nb_philo - i - 1;
 		r->philo[i].rules = r;
 		if (pthread_mutex_init(&r->philo[i].hunger, NULL) != EXIT_SUCCESS)
+			return (0);
+		if (pthread_mutex_init(&r->philo[i].is_done, NULL) != EXIT_SUCCESS)
+			return (0);
+		if (pthread_mutex_lock(&r->philo[i].is_done) != EXIT_SUCCESS)
 			return (0);
 		i++;
 	}
@@ -74,20 +80,16 @@ int	init_rules(t_rules *r, int ac, const char **av)
 	r->time_to_die = ft_atoi(av[2]);
 	r->time_to_eat = ft_atoi(av[3]);
 	r->time_to_sleep = ft_atoi(av[4]);
-	r->all_ate = 0;
-	r->dead = 0;
 	if (r->nb_philo <= 0)
 		return (2);
 	if (r->time_to_die < 0 || r->time_to_eat < 0 || r->time_to_sleep < 0)
 		return (1);
 	if (ac == 6)
 	{
-		r->maxmeals = ft_atoi(av[5]);
-		if (r->maxmeals <= 0)
+		r->nb_must_eat = ft_atoi(av[5]);
+		if (r->nb_must_eat <= 0)
 			return (1);
 	}
-	else
-		r->maxmeals = 0;
 	if (!init_mutexes(r))
 		return (3);
 	if (!init_philosophers(r))

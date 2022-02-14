@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:15:39 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/12 21:00:53 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/14 13:53:06 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ struct	s_rules;
 
 typedef struct s_philosopher
 {
-	int8_t			is_eating;
 	uint32_t		nb;
 	uint32_t		left_fork;
 	uint32_t		right_fork;
-	int32_t			meals;
 	uint64_t		last_meal;
 	pthread_t		thread_id;
+	pthread_t		reaper;
 	pthread_mutex_t	hunger;
+	pthread_mutex_t	is_done;
 	struct s_rules	*rules;
 }t_philo;
 
@@ -55,16 +55,16 @@ typedef struct s_philosopher
 */
 typedef struct s_rules
 {
-	int8_t			dead;
 	int8_t			all_ate;
 	int32_t			nb_philo;
 	int64_t			time_to_die;
 	int32_t			time_to_eat;
 	int32_t			time_to_sleep;
-	int32_t			maxmeals;
+	int32_t			nb_must_eat;
 	uint64_t		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	logs;
+	pthread_mutex_t	dead;
 	t_philo			*philo;
 }t_rules;
 
