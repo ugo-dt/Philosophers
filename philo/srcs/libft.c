@@ -6,11 +6,15 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:17:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/12 11:30:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/23 14:17:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
+#include <unistd.h>
+
+#define INT_MAX	2147483647
+#define INT_MIN	-2147483648
 
 int	ft_atoi(const char *s)
 {
