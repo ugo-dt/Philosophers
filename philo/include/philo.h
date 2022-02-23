@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:15:39 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 14:18:52 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/23 15:58:18 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ struct	s_rules;
 
 typedef struct s_philosopher
 {
-	uint8_t			is_eating;
+	int32_t			count;
 	uint32_t		nb;
 	uint32_t		left_fork;
 	uint32_t		right_fork;
 	uint64_t		last_meal;
 	pthread_t		thread_id;
-	pthread_t		reaper;
+	pthread_t		check_death;
 	pthread_mutex_t	hunger;
 	pthread_mutex_t	is_done;
 	struct s_rules	*rules;
@@ -81,6 +81,7 @@ int					init_rules(t_rules *rules, int ac, const char **av);
 int					ft_atoi(const char *s);
 void				ft_putstr_fd(const char *s, int fd);
 void				ft_putendl_fd(const char *s, int fd);
+void				*ft_xmalloc(size_t size);
 
 /* log.c */
 void				print_log(t_philo *p, char *log);
@@ -97,6 +98,9 @@ static inline void	done_eating(int32_t n)
 	else
 		printf("%d times\n", n);
 }
+
+/* philo */
+void				*start_threads(void *rules);
 
 /* time */
 uint64_t			get_time(void);

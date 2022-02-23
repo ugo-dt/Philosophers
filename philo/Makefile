@@ -6,13 +6,14 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 13:07:59 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/22 18:49:34 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/02/23 15:58:01 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 
-SRCS		=	$(wildcard srcs/*.c srcs/*/*.c srcs/*/*/*.c srcs/*/*/*/*.c)
+SRCS		=	srcs/clear.c srcs/debug.c srcs/init.c srcs/libft.c srcs/log.c \
+				srcs/main.c srcs/philo.c srcs/time.c
 OBJS		=	$(SRCS:.c=.o)
 HEADERS		=	-I include \
 

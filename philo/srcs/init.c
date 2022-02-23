@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:39:53 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 14:16:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/23 15:46:59 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ static int	init_forks(t_rules *r)
 {
 	int32_t	i;
 
-	r->forks = malloc(sizeof(pthread_mutex_t) * r->nb_philo);
-	if (!r->forks)
-		return (0);
+	r->forks = ft_xmalloc(sizeof(pthread_mutex_t) * r->nb_philo);
 	i = 0;
 	while (i < r->nb_philo)
 	{
@@ -49,9 +47,7 @@ static int	init_philosophers(t_rules *r)
 {
 	int32_t	i;
 
-	r->philo = malloc(sizeof(t_philo) * r->nb_philo);
-	if (!r->philo)
-		return (0);
+	r->philo = ft_xmalloc(sizeof(t_philo) * r->nb_philo);
 	i = 0;
 	while (i < r->nb_philo)
 	{

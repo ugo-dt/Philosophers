@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:22:24 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 15:03:50 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:06:31 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	eat(t_philo *p)
 	pthread_mutex_unlock(&p->hunger);
 }
 
-static void	*reaper(void *philo)
+static void	*check_death(void *philo)
 {
 	t_philo	*p;
 
@@ -59,8 +59,7 @@ static void	*phi(void *philo)
 	p->last_meal = get_time();
 	if (p->nb % 2)
 		usleep(100);
-	if ((pthread_create(&p->reaper, NULL, &reaper, philo))
-		|| (pthread_detach(p->reaper)))
+	if ((pthread_create(&p->check_death, NULL, &check_death, philo)))
 	{
 		ft_putendl_fd(ERROR_THREADS, STDERR_FILENO);
 		pthread_mutex_unlock(&p->rules->dead);
@@ -108,15 +107,12 @@ int	start(t_rules *r)
 
 	r->start_time = get_time();
 	if (r->nb_must_eat)
-		if ((pthread_create(&tid, NULL, &count_meals, r)
-				|| pthread_detach(tid)))
+		if (pthread_create(&tid, NULL, &count_meals, r))
 			return (5);
 	i = 0;
 	while (i < r->nb_philo)
 	{
-		r->philo[i].is_eating = 0;
-		if (pthread_create(&r->philo[i].thread_id, NULL, &phi, &r->philo[i])
-				|| pthread_detach(r->philo[i].thread_id))
+		if (pthread_create(&r->philo[i].thread_id, NULL, &phi, &r->philo[i]))
 			return (5);
 		i++;
 	}

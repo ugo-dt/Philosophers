@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:17:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 14:17:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/23 15:38:51 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,17 @@ void	ft_putendl_fd(const char *s, int fd)
 		return ;
 	ft_putstr_fd(s, fd);
 	write(fd, "\n", 1);
+}
+
+void	*ft_xmalloc(size_t size)
+{
+	char	*ret;
+
+	ret = malloc(size);
+	if (!ret)
+	{
+		ft_putendl_fd("\nout of memory\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	return (ret);
 }
