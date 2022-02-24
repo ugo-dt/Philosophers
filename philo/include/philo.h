@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:15:39 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 15:58:18 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/24 10:09:57 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 # define PHILO_USAGE 	"./philo number_of_philosophers time_to_die time_to_eat \
@@ -70,9 +71,11 @@ typedef struct s_rules
 	t_philo			*philo;
 }t_rules;
 
-/* clear */
+/* main */
 void				clear_mutexes(t_rules *r, int max);
 void				clear_philo(t_rules *r);
+void				exit_error(t_rules *r, int e);
+void				exit_philo(t_rules *r, int status);
 
 /* init */
 int					init_rules(t_rules *rules, int ac, const char **av);
@@ -99,18 +102,27 @@ static inline void	done_eating(int32_t n)
 		printf("%d times\n", n);
 }
 
-/* philo */
-void				*start_threads(void *rules);
+/* Get current time in milliseconds */
+static inline uint64_t	get_time(void)
+{
+	struct timeval	t;
 
-/* time */
-uint64_t			get_time(void);
-void				ft_sleep(uint64_t t);
+	if (gettimeofday(&t, NULL) == -1)
+		exit(1);
+	return ((t.tv_sec * (uint64_t)1000) + (t.tv_usec / (uint64_t)1000));
+}
 
-void				exit_error(t_rules *r, int e);
-void				exit_philo(t_rules *r, int status);
+/* Suspend thread execution for t milliseconds */
+static inline void	ft_sleep(uint64_t t)
+{
+	uint64_t	end;
+	uint64_t	wait;
 
-// DEBUG
-void				debug(t_rules *r);
+	end = get_time() + t;
+	wait = end - t;
+	while (get_time() < end)
+		usleep(t / wait);
+}
 
 /* PHILO_H */
 #endif

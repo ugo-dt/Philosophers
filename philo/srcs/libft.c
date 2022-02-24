@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:17:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 15:38:51 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/24 10:04:15 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	*ft_xmalloc(size_t size)
 	ret = malloc(size);
 	if (!ret)
 	{
-		ft_putendl_fd("\nout of memory\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		ft_putendl_fd("\nFatal error: out of memory\nAborting.", STDERR_FILENO);
+		exit(255);
 	}
 	return (ret);
 }

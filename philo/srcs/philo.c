@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:22:24 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 16:06:31 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/24 09:48:07 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ static void	*phi(void *philo)
 	while (1)
 	{
 		eat(p);
-		if (p->rules->all_ate)
-			break ;
+		p->count++;
+		if ((p->rules->nb_must_eat && p->count >= p->rules->nb_must_eat)
+			|| p->rules->all_ate)
+			while (1)
+				ft_sleep(UINT32_MAX);
 		print_log(p, "is sleeping");
 		ft_sleep(p->rules->time_to_sleep);
 		print_log(p, "is thinking");
@@ -92,6 +95,9 @@ static void	*count_meals(void *rules)
 			pthread_mutex_lock(&r->philo[i++].is_done);
 		meals++;
 	}
+	i = 0;
+	while (i < r->nb_philo)
+		pthread_mutex_lock(&r->forks[i++]);
 	pthread_mutex_unlock(&r->dead);
 	pthread_mutex_lock(&r->logs);
 	printf("%llu\tAll philosophers have eaten ",

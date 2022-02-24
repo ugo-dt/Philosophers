@@ -6,16 +6,15 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 13:07:59 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/23 15:58:01 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/02/24 10:16:37 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 
-SRCS		=	srcs/clear.c srcs/debug.c srcs/init.c srcs/libft.c srcs/log.c \
-				srcs/main.c srcs/philo.c srcs/time.c
+SRCS		=	srcs/init.c srcs/libft.c srcs/log.c srcs/main.c srcs/philo.c
 OBJS		=	$(SRCS:.c=.o)
-HEADERS		=	-I include \
+HEADERS		=	-I include
 
 CC			=	@clang
 CFLAGS		=	-Wall -Werror -Wextra -pthread
@@ -29,30 +28,30 @@ GRAY		=	\033[37m
 RED			=	\033[91m
 CLEAR		=	\e[0m
 
-#wildca:
-#	@echo "$(foreach src,$(SRCS),$(src)\n)"
-
 all: $(NAME)
-	@printf "\033[2K\r$(GREEN)$(NAME) ready!\n$(DEFAULT)"
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "\033[2K\r$(GREEN)$(NAME) ready!$(DEFAULT)"
 
 .c.o:
-	@printf "\033[2K\r$(YELLOW)Compiling $< $(_DEFAULT)"
+	@printf "\033[2K\r$(YELLOW)Compiling $< $(DEFAULT)"
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 clean:
-	@printf "$(MAGENTA)Removed object files $(_DEFAULT)\n"
+	@echo "$(MAGENTA)Removed object files $(DEFAULT)"
 	@rm -rf $(OBJS)
 
 fclean: clean
 	@rm -rf $(NAME)
-	@printf "$(RED)Removed $(NAME)$(_DEFAULT)\n"
+	@echo "$(RED)Removed $(NAME)$(DEFAULT)"
 
 re: fclean newline all
 
 newline:
-	@printf "$(_DEFAULT)\n"
+	@echo "$(DEFAULT)"
+
+norme:
+	@python3 -m norminette
 
 .PHONY: all clean fclean re newline

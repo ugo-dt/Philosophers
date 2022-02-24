@@ -6,12 +6,41 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:12:54 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 16:04:06 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/24 10:06:51 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <string.h>
+
+void	clear_mutexes(t_rules *r, int32_t max)
+{
+	int32_t	i;
+
+	if (r->forks)
+	{
+		i = 0;
+		while (i < max)
+			pthread_mutex_destroy(&r->forks[i++]);
+		free(r->forks);
+	}
+}
+
+void	clear_philo(t_rules *r)
+{
+	int32_t	i;
+
+	if (!r->philo)
+		return ;
+	i = 0;
+	while (i < r->nb_philo)
+	{
+		pthread_mutex_destroy(&r->philo[i].hunger);
+		pthread_mutex_destroy(&r->philo[i].is_done);
+		i++;
+	}
+	free(r->philo);
+}
 
 void	exit_error(t_rules *r, int e)
 {
