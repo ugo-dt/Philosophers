@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:15:39 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/24 10:09:57 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/25 11:53:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <stdint.h>
 # include <unistd.h>
+
+typedef unsigned long long	t_ull;
 
 # define PHILO_USAGE 	"./philo number_of_philosophers time_to_die time_to_eat \
 time_to_sleep [number_of_times_each_philosopher_must_eat]"
@@ -26,7 +29,7 @@ time_to_sleep [number_of_times_each_philosopher_must_eat]"
 # define ERROR_MEMORY	"philo: unexpected memory error: aborting"
 # define ERROR_THREADS	"philo: error: could not create threads"
 
-struct	s_rules;
+struct						s_rules;
 
 typedef struct s_philosopher
 {
@@ -34,7 +37,7 @@ typedef struct s_philosopher
 	uint32_t		nb;
 	uint32_t		left_fork;
 	uint32_t		right_fork;
-	uint64_t		last_meal;
+	t_ull			last_meal;
 	pthread_t		thread_id;
 	pthread_t		check_death;
 	pthread_mutex_t	hunger;
@@ -64,7 +67,7 @@ typedef struct s_rules
 	int32_t			time_to_eat;
 	int32_t			time_to_sleep;
 	int32_t			nb_must_eat;
-	uint64_t		start_time;
+	t_ull			start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	logs;
 	pthread_mutex_t	dead;
@@ -103,25 +106,23 @@ static inline void	done_eating(int32_t n)
 }
 
 /* Get current time in milliseconds */
-static inline uint64_t	get_time(void)
+static inline t_ull	get_time(void)
 {
 	struct timeval	t;
 
 	if (gettimeofday(&t, NULL) == -1)
 		exit(1);
-	return ((t.tv_sec * (uint64_t)1000) + (t.tv_usec / (uint64_t)1000));
+	return ((t.tv_sec * (t_ull)1000) + (t.tv_usec / (t_ull)1000));
 }
 
 /* Suspend thread execution for t milliseconds */
-static inline void	ft_sleep(uint64_t t)
+static inline void	ft_sleep(t_ull t)
 {
-	uint64_t	end;
-	uint64_t	wait;
+	t_ull	end;
 
 	end = get_time() + t;
-	wait = end - t;
 	while (get_time() < end)
-		usleep(t / wait);
+		usleep(1);
 }
 
 /* PHILO_H */

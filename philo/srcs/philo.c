@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:22:24 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/24 09:48:07 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/25 11:55:10 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ static void	*phi(void *philo)
 
 	p = (t_philo *)philo;
 	p->last_meal = get_time();
-	if (p->nb % 2)
-		usleep(100);
 	if ((pthread_create(&p->check_death, NULL, &check_death, philo)))
 	{
 		ft_putendl_fd(ERROR_THREADS, STDERR_FILENO);
@@ -98,11 +96,10 @@ static void	*count_meals(void *rules)
 	i = 0;
 	while (i < r->nb_philo)
 		pthread_mutex_lock(&r->forks[i++]);
-	pthread_mutex_unlock(&r->dead);
-	pthread_mutex_lock(&r->logs);
 	printf("%llu\tAll philosophers have eaten ",
 		get_time() - r->start_time);
 	done_eating(r->nb_must_eat);
+	pthread_mutex_unlock(&r->dead);
 	return (NULL);
 }
 
@@ -120,6 +117,7 @@ int	start(t_rules *r)
 	{
 		if (pthread_create(&r->philo[i].thread_id, NULL, &phi, &r->philo[i]))
 			return (5);
+		usleep(100);
 		i++;
 	}
 	pthread_mutex_lock(&r->dead);

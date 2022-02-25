@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:17:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/24 10:04:15 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/25 11:43:52 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdint.h>
+
+typedef unsigned long long	t_ull;
 
 #define INT_MAX	2147483647
 #define INT_MIN	-2147483648
@@ -43,6 +46,11 @@ int	ft_atoi(const char *s)
 		result = result * 10 + digit;
 	}
 	return (result * sign);
+}
+
+void	ft_putchar(char c, int fd)
+{
+	write(fd, &c, 1);
 }
 
 void	ft_putstr_fd(const char *s, int fd)

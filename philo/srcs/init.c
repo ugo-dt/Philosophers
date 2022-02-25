@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:39:53 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/23 15:46:59 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/25 11:55:58 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <string.h>
 
 static int	init_forks(t_rules *r)
 {
@@ -72,6 +73,7 @@ static int	init_philosophers(t_rules *r)
 
 int	init_rules(t_rules *r, int ac, const char **av)
 {
+	memset(r, 0, sizeof(t_rules));
 	r->nb_philo = ft_atoi(av[1]);
 	r->time_to_die = ft_atoi(av[2]);
 	r->time_to_eat = ft_atoi(av[3]);
