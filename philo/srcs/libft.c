@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 16:17:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/25 11:43:52 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/03/02 18:02:46 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/03/03 10:37:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ int	ft_atoi(const char *s)
 	{
 		digit = *s++ - 48;
 		if (result * sign > INT_MAX / 10
-			|| ((sign == 1 && result >= 214748364 && digit >= 7)))
-			return (INT_MAX);
+			|| ((sign == 1 && result >= 214748364 && digit > 7)))
+			return (-1);
 		if (result * sign < INT_MIN / 10
-			|| ((sign == -1 && result >= 214748364 && digit >= 8)))
+			|| ((sign == -1 && result >= 214748364 && digit > 8)))
 			return (INT_MIN);
 		result = result * 10 + digit;
 	}
 	return (result * sign);
 }
 
-void	ft_putchar(char c, int fd)
+int	ft_isdigit(int c)
 {
-	write(fd, &c, 1);
+	return (c >= '0' && c <= '9');
 }
 
 void	ft_putstr_fd(const char *s, int fd)
@@ -70,17 +70,4 @@ void	ft_putendl_fd(const char *s, int fd)
 		return ;
 	ft_putstr_fd(s, fd);
 	write(fd, "\n", 1);
-}
-
-void	*ft_xmalloc(size_t size)
-{
-	char	*ret;
-
-	ret = malloc(size);
-	if (!ret)
-	{
-		ft_putendl_fd("\nFatal error: out of memory\nAborting.", STDERR_FILENO);
-		exit(255);
-	}
-	return (ret);
 }

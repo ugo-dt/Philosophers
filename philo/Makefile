@@ -6,18 +6,19 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 13:07:59 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/24 10:16:37 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/03/03 00:00:36 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 
-SRCS		=	srcs/init.c srcs/libft.c srcs/log.c srcs/main.c srcs/philo.c
+SRCS		=	srcs/main.c srcs/init.c srcs/libft.c srcs/philo.c srcs/log.c \
+				srcs/eat.c srcs/check_death.c
 OBJS		=	$(SRCS:.c=.o)
 HEADERS		=	-I include
 
 CC			=	@clang
-CFLAGS		=	-Wall -Werror -Wextra -pthread
+CFLAGS		=	-Wall -Werror -Wextra -pthread -fsanitize=thread
 
 # Colors
 DEFAULT		=	\033[39m

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 12:39:53 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/25 12:00:57 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/03/02 17:59:55 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/03/03 10:27:29 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ static int	init_forks(t_rules *r)
 {
 	int32_t	i;
 
-	r->forks = ft_xmalloc(sizeof(pthread_mutex_t) * r->nb_philo);
+	r->forks = malloc(sizeof(pthread_mutex_t) * r->nb_philo);
+	if (!r->forks)
+		return (0);
 	i = 0;
 	while (i < r->nb_philo)
 	{
@@ -36,9 +38,7 @@ static int	init_mutexes(t_rules *r)
 		return (0);
 	if (pthread_mutex_init(&r->logs, NULL) != EXIT_SUCCESS)
 		return (0);
-	if (pthread_mutex_init(&r->dead, NULL) != EXIT_SUCCESS)
-		return (0);
-	if (pthread_mutex_lock(&r->dead) != EXIT_SUCCESS)
+	if (pthread_mutex_init(&r->mutex_dead, NULL) != EXIT_SUCCESS)
 		return (0);
 	return (1);
 }
@@ -47,7 +47,9 @@ static int	init_philosophers(t_rules *r)
 {
 	int32_t	i;
 
-	r->philo = ft_xmalloc(sizeof(t_philo) * r->nb_philo);
+	r->philo = malloc(sizeof(t_philo) * r->nb_philo);
+	if (!r->philo)
+		return (0);
 	i = 0;
 	while (i < r->nb_philo)
 	{
@@ -59,12 +61,28 @@ static int	init_philosophers(t_rules *r)
 		else
 			r->philo[i].right_fork = r->nb_philo - i - 1;
 		r->philo[i].rules = r;
-		if (pthread_mutex_init(&r->philo[i].hunger, NULL) != EXIT_SUCCESS)
-			return (0);
-		if (pthread_mutex_init(&r->philo[i].is_done, NULL) != EXIT_SUCCESS)
-			return (0);
-		if (pthread_mutex_lock(&r->philo[i].is_done) != EXIT_SUCCESS)
-			return (0);
+		if (pthread_mutex_init(&r->philo[i].eating, NULL) != 0)
+			return (5);
+		i++;
+	}
+	return (1);
+}
+
+int	digits_only(int ac, const char **av)
+{
+	int		i;
+	int		j;
+
+	i = 1;
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (0);
+			j++;
+		}
 		i++;
 	}
 	return (1);
@@ -72,6 +90,8 @@ static int	init_philosophers(t_rules *r)
 
 int	init_rules(t_rules *r, int ac, const char **av)
 {
+	if (!digits_only(ac, av))
+		return (1);
 	r->nb_philo = ft_atoi(av[1]);
 	r->time_to_die = ft_atoi(av[2]);
 	r->time_to_eat = ft_atoi(av[3]);

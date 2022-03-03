@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 13:15:39 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/25 11:53:28 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/03/02 17:59:38 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/03/03 10:35:19 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <stdint.h>
 # include <unistd.h>
 
-typedef unsigned long long	t_ull;
-
 # define PHILO_USAGE 	"./philo number_of_philosophers time_to_die time_to_eat \
 time_to_sleep [number_of_times_each_philosopher_must_eat]"
 # define NO_PHILOSOPHERS "philo: error: expected at least 1 philosopher"
@@ -29,39 +27,25 @@ time_to_sleep [number_of_times_each_philosopher_must_eat]"
 # define ERROR_MEMORY	"philo: unexpected memory error: aborting"
 # define ERROR_THREADS	"philo: error: could not create threads"
 
+typedef unsigned long long	t_ull;
+
 struct						s_rules;
 
 typedef struct s_philosopher
 {
-	int32_t			count;
 	uint32_t		nb;
 	uint32_t		left_fork;
 	uint32_t		right_fork;
 	t_ull			last_meal;
 	pthread_t		thread_id;
 	pthread_t		check_death;
-	pthread_mutex_t	hunger;
-	pthread_mutex_t	is_done;
+	pthread_mutex_t	eating;
 	struct s_rules	*rules;
 }t_philo;
 
-/*
- * @param number_of_philosophers Le nombre de philosophes, mais aussi le nombre
- * de fourchettes.
- * @param time_to_die (en ms) Si un philosophe n’a pas commencé à manger
- * time_to_die millisecondes après le début de son précédent repas ou depuis le
- * début de la simulation, il meurt.
- * @param time_to_eat (en ms) Le temps qu’un philosophe prend à manger.
- * Pendant ce temps, un philosophe doit garder ses deux fourchettes.
- * @param time_to_sleep (en ms) Le temps qu’un philosophe passe à dormir.
- * @param number_of_times_each_philosopher_must_eat (argument optionnel) Si tous
- * les philosophes ont mangé au moins 'number_of_times_each_philosopher_must_eat'
- * fois, la simulation prend fin. Si cet argument n’est pas spécifié, alors
- * la simulation prend fin à la mort d’un philosophe.
-*/
 typedef struct s_rules
 {
-	int8_t			all_ate;
+	int8_t			dead;
 	int32_t			nb_philo;
 	int32_t			time_to_die;
 	int32_t			time_to_eat;
@@ -70,15 +54,15 @@ typedef struct s_rules
 	t_ull			start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	logs;
-	pthread_mutex_t	dead;
+	pthread_mutex_t	mutex_dead;
 	t_philo			*philo;
 }t_rules;
 
-/* main */
-void				clear_mutexes(t_rules *r, int max);
-void				clear_philo(t_rules *r);
-void				exit_error(t_rules *r, int e);
-void				exit_philo(t_rules *r, int status);
+/* check_death */
+void				*check_death(void *philo);
+
+/* eat */
+void				eat(t_philo *p);
 
 /* init */
 int					init_rules(t_rules *rules, int ac, const char **av);
@@ -87,13 +71,15 @@ int					init_rules(t_rules *rules, int ac, const char **av);
 int					ft_atoi(const char *s);
 void				ft_putstr_fd(const char *s, int fd);
 void				ft_putendl_fd(const char *s, int fd);
-void				*ft_xmalloc(size_t size);
+int					ft_isdigit(int c);
 
 /* log.c */
 void				print_log(t_philo *p, char *log);
 
 /* philo */
 int					start(t_rules *r);
+
+void				clear_mutexes(t_rules *r, int32_t max);
 
 static inline void	done_eating(int32_t n)
 {
@@ -111,18 +97,27 @@ static inline t_ull	get_time(void)
 	struct timeval	t;
 
 	if (gettimeofday(&t, NULL) == -1)
-		exit(1);
+		return (0);
 	return ((t.tv_sec * (t_ull)1000) + (t.tv_usec / (t_ull)1000));
 }
 
 /* Suspend thread execution for t milliseconds */
-static inline void	ft_sleep(t_ull t)
+static inline void	ft_sleep(t_philo *p, t_ull t)
 {
 	t_ull	end;
 
 	end = get_time() + t;
 	while (get_time() < end)
+	{
+		pthread_mutex_lock(&p->rules->mutex_dead);
+		if (p->rules->dead)
+		{
+			pthread_mutex_unlock(&p->rules->mutex_dead);
+			break ;
+		}
+		pthread_mutex_unlock(&p->rules->mutex_dead);
 		usleep(1);
+	}
 }
 
 /* PHILO_H */
