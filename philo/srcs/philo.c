@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 18:01:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 12:36:10 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/03 18:29:58 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ int	start(t_rules *r)
 	while (i < r->nb_philo)
 		pthread_join(r->philo[i++].thread_id, NULL);
 	pthread_mutex_lock(&r->mutex_dead);
-	if (r->nb_must_eat && !r->dead)
+	if (r->nb_must_eat && !r->dead && ++r->dead)
 	{
-		r->dead = 1;
-		printf("%llu\tAll philosophers have eaten ",
-			get_time() - r->start_time);
+		printf("%llu\t%s ", get_time() - r->start_time, ALL_HAVE_EATEN);
 		done_eating(r->nb_must_eat);
 	}
 	pthread_mutex_unlock(&r->mutex_dead);
+	usleep(500 * 1000);
 	return (EXIT_SUCCESS);
 }

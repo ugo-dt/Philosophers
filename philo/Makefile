@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
+#    By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 13:07:59 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/03/03 12:32:55 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/03/03 18:35:56 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS		=	$(SRCS:.c=.o)
 HEADERS		=	-I include
 
 CC			=	@clang
-CFLAGS		=	-Wall -Werror -Wextra -pthread -fsanitize=address
+CFLAGS		=	-Wall -Werror -Wextra -pthread
 
 # Colors
 DEFAULT		=	\033[39m

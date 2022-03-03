@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 17:59:38 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 11:02:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/03 18:27:24 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ time_to_sleep [number_of_times_each_philosopher_must_eat]"
 # define ERROR_MUTEXES	"philo: error: could not create mutexes"
 # define ERROR_MEMORY	"philo: unexpected memory error: aborting"
 # define ERROR_THREADS	"philo: error: could not create threads"
+# define ALL_HAVE_EATEN	"All philosophers have eaten"
 
 typedef unsigned long long	t_ull;
 
