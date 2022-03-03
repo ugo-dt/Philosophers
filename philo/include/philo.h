@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 17:59:38 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 10:35:19 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/03 11:02:55 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_rules
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	logs;
 	pthread_mutex_t	mutex_dead;
+	pthread_mutex_t	mutex_right_fork;
 	t_philo			*philo;
 }t_rules;
 

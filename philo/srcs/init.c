@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 17:59:55 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 10:27:29 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/03 11:02:59 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	init_mutexes(t_rules *r)
 	if (pthread_mutex_init(&r->logs, NULL) != EXIT_SUCCESS)
 		return (0);
 	if (pthread_mutex_init(&r->mutex_dead, NULL) != EXIT_SUCCESS)
+		return (0);
+	if (pthread_mutex_init(&r->mutex_right_fork, NULL) != EXIT_SUCCESS)
 		return (0);
 	return (1);
 }

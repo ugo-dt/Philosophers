@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 17:59:01 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 10:36:00 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/03 11:03:01 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	clear_mutexes(t_rules *r, int32_t max)
 
 	pthread_mutex_destroy(&r->logs);
 	pthread_mutex_destroy(&r->mutex_dead);
+	pthread_mutex_destroy(&r->mutex_right_fork);
 	if (r->forks)
 	{
 		i = 0;
