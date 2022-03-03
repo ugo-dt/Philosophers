@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 23:55:55 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 21:10:13 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/03 21:12:26 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int	check_time(t_philo *p)
 		pthread_mutex_lock(&p->rules->mutex_dead);
 		pthread_mutex_lock(&p->rules->logs);
 		if (!p->rules->dead)
-		printf("%llu\t%u died\n",
-			get_time() - p->rules->start_time, p->nb + 1);
+			printf("%llu\t%u died\n",
+				get_time() - p->rules->start_time, p->nb + 1);
 		p->rules->dead = 1;
 		pthread_mutex_unlock(&p->eating);
 		pthread_mutex_unlock(&p->rules->mutex_dead);
