@@ -52,7 +52,6 @@ void	*phi(void *philo)
 	}
 	pthread_detach(p->check_death);
 	philo_loop(p);
-	//pthread_join(p->check_death, NULL);
 	return (NULL);
 }
 
