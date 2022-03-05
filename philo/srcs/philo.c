@@ -50,9 +50,9 @@ void	*phi(void *philo)
 		ft_putendl_fd(ERROR_THREADS, STDERR_FILENO);
 		return (NULL);
 	}
-	//pthread_detach(p->check_death);
+	pthread_detach(p->check_death);
 	philo_loop(p);
-	pthread_join(p->check_death, NULL);
+	//pthread_join(p->check_death, NULL);
 	return (NULL);
 }
 
