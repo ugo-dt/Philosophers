@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 17:59:55 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 11:02:59 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/05 09:35:07 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int	init_philosophers(t_rules *r)
 	i = 0;
 	while (i < r->nb_philo)
 	{
+		r->philo[i].nb_philo = r->nb_philo;
 		r->philo[i].last_meal = 0;
 		r->philo[i].nb = i;
 		r->philo[i].left_fork = i;

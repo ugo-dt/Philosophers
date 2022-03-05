@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 17:59:38 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/03 18:27:24 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/05 09:34:45 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ struct						s_rules;
 typedef struct s_philosopher
 {
 	uint32_t		nb;
+	int32_t			nb_philo;
 	uint32_t		left_fork;
 	uint32_t		right_fork;
 	t_ull			last_meal;
