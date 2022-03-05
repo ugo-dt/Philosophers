@@ -35,6 +35,7 @@ struct						s_rules;
 typedef struct s_philosopher
 {
 	uint32_t		nb;
+	int8_t			done;
 	int32_t			nb_philo;
 	uint32_t		left_fork;
 	uint32_t		right_fork;
@@ -115,7 +116,7 @@ static inline void	ft_sleep(t_philo *p, t_ull t)
 		if (p->rules->dead)
 		{
 			pthread_mutex_unlock(&p->rules->mutex_dead);
-			break ;
+			return ;
 		}
 		pthread_mutex_unlock(&p->rules->mutex_dead);
 		usleep(1);

@@ -54,6 +54,7 @@ static int	init_philosophers(t_rules *r)
 	while (i < r->nb_philo)
 	{
 		r->philo[i].nb_philo = r->nb_philo;
+		r->philo[i].done = 0;
 		r->philo[i].last_meal = 0;
 		r->philo[i].nb = i;
 		r->philo[i].left_fork = i;

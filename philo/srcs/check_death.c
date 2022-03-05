@@ -17,15 +17,15 @@ static int	check_time(t_philo *p)
 	pthread_mutex_lock(&p->eating);
 	if (get_time() > p->last_meal + (t_ull)p->rules->time_to_die)
 	{
-		pthread_mutex_lock(&p->rules->mutex_dead);
+		pthread_mutex_unlock(&p->eating);
 		pthread_mutex_lock(&p->rules->logs);
+		pthread_mutex_lock(&p->rules->mutex_dead);
 		if (!p->rules->dead)
 			printf("%llu\t%u died\n",
 				get_time() - p->rules->start_time, p->nb + 1);
-		p->rules->dead = 1;
-		pthread_mutex_unlock(&p->eating);
-		pthread_mutex_unlock(&p->rules->mutex_dead);
 		pthread_mutex_unlock(&p->rules->logs);
+		p->rules->dead = 1;
+		pthread_mutex_unlock(&p->rules->mutex_dead);
 		return (1);
 	}
 	pthread_mutex_unlock(&p->eating);
@@ -48,7 +48,7 @@ void	*check_death(void *philo)
 		pthread_mutex_unlock(&p->rules->mutex_dead);
 		if (check_time(p))
 			return (NULL);
-		ft_sleep(p, 1);
+		usleep(1000);
 	}
 	return (NULL);
 }

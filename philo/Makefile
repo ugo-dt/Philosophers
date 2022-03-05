@@ -19,7 +19,6 @@ HEADERS		=	-I include
 
 CC			=	clang
 CFLAGS		=	-Wall -Werror -Wextra -pthread
-
 # Colors
 DEFAULT		=	\033[39m
 GREEN		=	\033[92m
