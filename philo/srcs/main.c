@@ -17,6 +17,7 @@ void	clear_mutexes(t_rules *r, int32_t max)
 {
 	int32_t	i;
 
+	usleep(500000);
 	pthread_mutex_destroy(&r->logs);
 	pthread_mutex_destroy(&r->mutex_dead);
 	if (r->forks)
