@@ -19,7 +19,6 @@ void	clear_mutexes(t_rules *r, int32_t max)
 
 	pthread_mutex_destroy(&r->logs);
 	pthread_mutex_destroy(&r->mutex_dead);
-	pthread_mutex_destroy(&r->mutex_right_fork);
 	if (r->forks)
 	{
 		i = 0;
@@ -78,6 +77,7 @@ int	main(int ac, const char **av)
 	done = start(&rules);
 	if (done != EXIT_SUCCESS)
 		return (exit_error(&rules, done));
+	usleep(500000);
 	clear_philo(&rules);
 	clear_mutexes(&rules, rules.nb_philo);
 	return (0);

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
- int	no_friends_no_forks(t_philo *p)
+static int	no_friends_no_forks(t_philo *p)
 {
 	while (1)
 	{
@@ -20,7 +20,6 @@
 		if (p->rules->dead)
 		{
 			pthread_mutex_unlock(&p->rules->mutex_dead);
-			//pthread_mutex_unlock(&p->rules->mutex_right_fork);
 			return (1);
 		}
 		pthread_mutex_unlock(&p->rules->mutex_dead);
@@ -36,10 +35,8 @@ void	eat(t_philo *p)
 	r = p->rules;
 	pthread_mutex_lock(&r->forks[p->left_fork]);
 	print_log(p, "has taken a fork");
-	//pthread_mutex_lock(&r->mutex_right_fork);
-//	if (p->nb_philo < 2 && no_friends_no_forks(p))
-//		return ;
-	//pthread_mutex_unlock(&r->mutex_right_fork);
+	if (p->nb_philo < 2 && no_friends_no_forks(p))
+		return ;
 	pthread_mutex_lock(&r->forks[p->right_fork]);
 	print_log(p, "has taken a fork");
 	pthread_mutex_lock(&p->eating);

@@ -17,8 +17,8 @@ SRCS		=	srcs/main.c srcs/init.c srcs/libft.c srcs/philo.c srcs/log.c \
 OBJS		=	$(SRCS:.c=.o)
 HEADERS		=	-I include
 
-CC			=	@clang
-CFLAGS		=	-Wall -Werror -Wextra -pthread -fsanitize=thread
+CC			=	clang
+CFLAGS		=	-Wall -Werror -Wextra -pthread
 
 # Colors
 DEFAULT		=	\033[39m
@@ -32,27 +32,20 @@ CLEAR		=	\e[0m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "\033[2K\r$(GREEN)$(NAME) ready!$(DEFAULT)"
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 .c.o:
-	@printf "\033[2K\r$(YELLOW)Compiling $< $(DEFAULT)"
-	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 clean:
-	@echo "$(MAGENTA)Removed object files $(DEFAULT)"
-	@rm -rf $(OBJS)
+	rm -rf $(OBJS)
 
 fclean: clean
-	@rm -rf $(NAME)
-	@echo "$(RED)Removed $(NAME)$(DEFAULT)"
+	rm -rf $(NAME)
 
-re: fclean newline all
-
-newline:
-	@echo "$(DEFAULT)"
+re: fclean all
 
 norme:
 	@python3 -m norminette
 
-.PHONY: all clean fclean re newline
+.PHONY: all clean fclean re

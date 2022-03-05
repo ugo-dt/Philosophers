@@ -19,6 +19,6 @@ void	print_log(t_philo *p, char *log)
 	if (!p->rules->dead)
 		printf("%llu\t%u %s\n",
 			get_time() - p->rules->start_time, p->nb + 1, log);
-	pthread_mutex_unlock(&p->rules->mutex_dead);
 	pthread_mutex_unlock(&p->rules->logs);
+	pthread_mutex_unlock(&p->rules->mutex_dead);
 }

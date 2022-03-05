@@ -52,6 +52,7 @@ void	*phi(void *philo)
 	}
 	pthread_detach(p->check_death);
 	philo_loop(p);
+	//pthread_join(p->check_death, NULL);
 	return (NULL);
 }
 
@@ -80,6 +81,5 @@ int	start(t_rules *r)
 		done_eating(r->nb_must_eat);
 	}
 	pthread_mutex_unlock(&r->mutex_dead);
-	usleep(500 * 1000);
 	return (EXIT_SUCCESS);
 }

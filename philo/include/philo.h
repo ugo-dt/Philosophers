@@ -57,7 +57,6 @@ typedef struct s_rules
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	logs;
 	pthread_mutex_t	mutex_dead;
-	pthread_mutex_t	mutex_right_fork;
 	t_philo			*philo;
 }t_rules;
 

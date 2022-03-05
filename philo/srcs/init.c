@@ -40,8 +40,6 @@ static int	init_mutexes(t_rules *r)
 		return (0);
 	if (pthread_mutex_init(&r->mutex_dead, NULL) != EXIT_SUCCESS)
 		return (0);
-	if (pthread_mutex_init(&r->mutex_right_fork, NULL) != EXIT_SUCCESS)
-		return (0);
 	return (1);
 }
 
